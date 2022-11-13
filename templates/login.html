@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} Login {% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+{% with messages = get_flashed_messages() %}
+ {% if messages %}
+     {% for message in messages %}
+         <h3 style="color: green"> {{ message }} </h3>
+     {% endfor %}    
+{% endif %}
+{% endwith %}
+<div class="container">
+  <form class="form-signin" method="POST" action="/login">
+    <h2 class="form-signin-heading">Login</h2>
+    {{ form.hidden_tag() }}
+    {{ wtf.form_field(form.username) }}
+    {{ wtf.form_field(form.password) }}
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+  </form>
+</div> <!-- /container -->
+{% endblock %}
+
+
+
+ 
