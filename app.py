@@ -15,7 +15,7 @@ app.debug = True
 #Configuration steps (lately they should be stored in a config file!)
 app.config['SECRET_KEY'] = 'secretkey'
 # !! Change here the directory to your project to create the database inside your project folder !!
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Flask_Projects/Blitz_Flow_Project_Test_2/site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Flask_Projects/Blitz_Flow_Project/site.db'
 app.config['ENV'] = 'development'
 app.config['DEBUG'] = True
 app.config['TESTING'] = True
@@ -67,6 +67,12 @@ def register():
         flash('You have successfully registered ! ')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
+
+
+def index():
+    return render_template('index.html')
+
 
 
 #Route to Login_Page after Registration-Auth
