@@ -25,7 +25,6 @@ login_manager.init_app(app)
 bootstrap = Bootstrap(app)
 login_manager.login_view = 'login'
 
-
 # User_Class_Model for the Database
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -33,7 +32,6 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
-
 
 # loads User_Class in the DB
 @login_manager.user_loader
@@ -54,6 +52,9 @@ class RegisterForm(FlaskForm):
 
 #Decorator for "Home" (in this case "Register-Page")
 @app.route('/')
+def index():
+    return render_template('index.html')
+    
 #Route to Register-Page
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -67,12 +68,6 @@ def register():
         flash('You have successfully registered ! ')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
-
-
-
-def index():
-    return render_template('index.html')
-
 
 
 #Route to Login_Page after Registration-Auth
@@ -95,8 +90,8 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user()
-    return redirect(url_for('register.html'))
+    #logout_user()
+    return redirect(url_for('index.html'))
 
 #It runs the app (Standard Syntax)
 if __name__ == "__main__":

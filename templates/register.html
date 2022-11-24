@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Register{% endblock %}
+
 {% block head %}
   {{ super() }}
   <style type="text/css">
@@ -9,8 +9,8 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-  <form class="form-signin" method="POST" action="/register">
-    <h2 class="form-signin-heading">Sign Up</h2>
+  <form class="form-signup" method="POST" action="/register">
+    <h4 class="form-signup-heading">Welcome to sign up</h4>
     {{ form.hidden_tag() }}
     {{ wtf.form_field(form.username) }}
     {{ wtf.form_field(form.email) }}
@@ -19,4 +19,18 @@
   </form>
 
 </div> <!-- /container -->
+
+<style>
+  .form-signup{
+    justify-content: center;
+    margin-top: 120px;
+    width: 300px;
+    padding: 10px;
+    margin-left: 500px;
+  }
+  .btn {
+   margin-top: 10px;
+  }
+</style>
+
 {% endblock %}
