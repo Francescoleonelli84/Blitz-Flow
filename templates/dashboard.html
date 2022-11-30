@@ -1,10 +1,71 @@
 {% extends "layout.html" %}
-
+<head>
+    <link href="dashboard.css" rel="stylesheet">
+</head>
 <body>
-  {% block content %}
-  <div class="jumbotron text-center">
-    <h1>Welcome To Blitz-FlowApp</h1>
-    <p class="lead">This application is built on the Python Flask framework</p>
-  </div>
-  {% endblock %}
+{% block content %}
+
+ <h4>Dashboard <small>Welcome {{session.username}}</small></h4>
+ <!--<a class = "btn btn-primary" href="/add_task">Add Task</a>-->
+ 
+ <div class="form">
+    <form action="/add" method="post">
+        <input type="text" name="task"required placeholder="Add a new task to do">
+        <button>Add Item</button>
+    </form>
+</div>
+<div class="row">
+    <div class="column">
+        <h2>Task to do</h2>
+        <ul>
+        {% for task in to_do %}
+            <li>{{ task.task }}</li>
+            <li>
+                <button><a href="{{ url_for('change_status', id=task.id, status='doing') }}">Mark as doing</a></button>
+                <button><a href="{{ url_for('change_status', id=task.id, status='done') }}">Mark as done</a></button>
+                <button><a href="{{ url_for('delete', id=task.id) }}">Delete task</a></button></li>
+        {% endfor %}    
+        </ul>
+    </div>
+    <div class="column">
+       <h2>Task in progress</h2>
+       <ul>
+       {% for task in doing %}
+           <li>{{ task.task }}</li>
+           <li>
+                <button><a href="{{ url_for('change_status', id=task.id, status='done') }}">Mark as done</a></button>
+                <button><a href="{{ url_for('delete', id=task.id) }}">Delete task</a></button></li>
+        {% endfor %}    
+        </ul>
+    </div>
+    <div class="column">
+    <h2>Task done</h2>
+        <ul>
+        {% for task in done %}
+           <li>{{ task.task }}</li>
+           <li>
+                <button><a href="{{ url_for('delete', id=task.id) }}">Delete task</a></button></li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+    {% for message in get_flashed_messages() %}
+        <div class=flash>{{ message }}</div>
+    {% endfor %}   
+    
+    <style>
+        .form{
+          justify-content: center;
+          margin-top: 40px;
+          padding: 10px;
+          margin-left: 300px;
+        }
+        .row {
+         justify-content: center;
+          margin-top: 10px;
+          padding: 10px;
+          margin-left: 300px;
+        }
+     </style>
+{% endblock %}
 </body>

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+<div class="container">
+  <form class="form-signup" method="POST" action="/register">
+    <h4 class="form-signup-heading">Welcome to sign up</h4>
+    {{ form.hidden_tag() }}
+    {{ wtf.form_field(form.username) }}
+    {{ wtf.form_field(form.email) }}
+    {{ wtf.form_field(form.password) }}
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+  </form>
+
+</div> <!-- /container -->
+
+<style>
+  .form-signup{
+    justify-content: center;
+    margin-top: 120px;
+    width: 300px;
+    padding: 10px;
+    margin-left: 500px;
+  }
+  .btn {
+   margin-top: 10px;
+  }
+</style>
+
+{% endblock %}

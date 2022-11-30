@@ -3,11 +3,11 @@
     <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
       <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
     </a>
-
+    <a class="navbar-brand" href="#">Blitz-Flow</a>
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
     
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{{url_for('index')}}">Home</a>
+        <a class="nav-link px-2 link-dark" aria-current="page" href="{{url_for('index')}}">Home</a>
       </li>
 
       <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
@@ -17,14 +17,26 @@
     </ul>
 
     <div class="col-md-3 text-end">
+      {% if session.logged_in %}
+      <a href="{{url_for('dashboard')}}">
+        <button type="button" class="btn btn-outline-primary me-2">Dashboard</button>
+      </a>
+      <a href="{{url_for('profile')}}">
+        <button type="button" class="btn btn-outline-primary me-2">Profile</button>
+      </a>
+      <a href="{{url_for('logout')}}">
+        <button type="button" class="btn btn-outline-primary me-2">Logout</button>
+      </a>
+      {% else %}
+      <a href="{{url_for('register')}}">
+        <button type="button" class="btn btn-outline-primary me-2">Sign-up</button>
+      </a>
        <a href="{{url_for('login')}}">
           <button type="button" class="btn btn-outline-primary me-2">Login</button>
        </a>
-       <a href="{{url_for('register')}}">
-          <button type="button" class="btn btn-primary">Sign-up</button>
-       </a>
+       {% endif %}
       
-    </div>
+      </div>
 
   </header>
 </div>
