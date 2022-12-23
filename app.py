@@ -96,6 +96,8 @@ class Comment(db.Model):
         'user.id', ondelete="CASCADE"), nullable=False)
     task_id= db.Column(db.Integer, db.ForeignKey(
         'tasks.id', ondelete='CASCADE'), nullable=False)
+
+
 #Decorator for "Home" (in this case "Register-Page")
 @app.route('/')
 def index():
@@ -119,7 +121,6 @@ def register():
 
 
 #Route to Login_Page after Registration-Auth
-
 @app.route('/login', methods=["GET", "POST"])
 def login():
      form = LoginForm()
@@ -229,6 +230,7 @@ def change_status(id,status):
     task.status = status
     db.session.commit()  
     return redirect(url_for('dashboard'))
+
 
 @app.route('/task/<id>', methods=['GET', 'POST', 'DELETE'])
 def delete(id):

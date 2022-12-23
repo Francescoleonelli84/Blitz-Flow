@@ -1,6 +1,8 @@
+
 {% extends "layout.html" %}
 <head>
-    <link href="dashboard.css" rel="stylesheet"> 
+   <!-- <link href="dashboard.css" rel="stylesheet"> -->
+    <link href= "{{ url_for('static', filename='dashboard.css')}}" rel="stylesheet">
 </head>
 
 
@@ -28,25 +30,30 @@
 </div>
 
 <div class="row">
+    <!--Begin Column To Do-->
     <div class="column">
-        <h2>Task to do</h2>
-        <ul>
+        <h2>To Dos</h2>
         {% for task in to_do %}
-            <li>{{ task.task }}</li>
-            <li>{{ task.team_member }} </li>
-            <li> Leave a comment </li>  
-           
-            <ol>
-                {% for comment in task.comments %}
-                <li> 
-                    
-                    {{ comment.text }} 
-
-                </li> 
-                {% endfor %}
-            </ol>
-              
-          
+        <!--begin Card To Do -->
+        <div class="card">
+            <div class="card-header">
+                <!-- {{ loop.index }} iterates on the index of tasks and gives back number-->
+                <h5 class="card-title">To Do Nr: {{ loop.index}} </h5>
+            </div>
+            <!--Begin Card Body-->
+            <div class="card-body">    
+                     <li>{{ task.task }}</li>
+                     <li>{{ task.team_member }} </li>
+                     <!--Begin Comment-Session -->
+                     <li> Leave a comment </li>            
+                         <ol>
+                            {% for comment in task.comments %}
+                            <li> 
+                            {{ comment.text }} 
+                            </li> 
+                            {% endfor %}
+                        </ol>
+            <!--Comment Form -->
             <form class="input-group mb-3" method="POST" action="/create-comment/{{task.id}}">
                 <input 
                  type="text" 
@@ -58,13 +65,22 @@
                 <button type="submit" class="btn btn-primary"> Comment </button>
             </form> 
             <br/>
+        <!--End Comment Session-->
+
+        <!--Buttons to move Task-->
                 <button><a href="{{ url_for('change_status', id=task.id, status='doing') }}">Mark as doing</a></button>
                 <button><a href="{{ url_for('change_status', id=task.id, status='done') }}">Mark as done</a></button>
-                <button><a href="{{ url_for('delete', id=task.id) }}">Delete task</a></button></li>
-                
-        {% endfor %}    
+                <button><a href="{{ url_for('delete', id=task.id) }}">Delete task</a></button></li>         
+          
         </ul>
+        <!--End Card Body-->
+        </div>
+        <!--End Card -->
     </div>
+    {% endfor %} 
+    <!--End Column To Do-->    
+    </div>
+    <br/>
     <div class="column">
        <h2>Task in progress</h2>
        <ul>
@@ -109,3 +125,4 @@
      </style>
 {% endblock %}
 </body>
+
