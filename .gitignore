@@ -3,4 +3,4 @@ project/site.db
 __pycache__
 project/README.md
 project/Queries.sql
-venv/
+.venv

@@ -8,6 +8,13 @@ from flask_bootstrap import Bootstrap
 from werkzeug.security import generate_password_hash, check_password_hash
 import email_validator
 import sqlite3 
+
+
+# create tables before the first request
+@app.before_first_request
+def create_tables():
+    db.create_all()
+    
 #from flask_marshmallow import Marshmallow
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -75,15 +82,35 @@ def is_logged_in(f):
     return wrap
 
 # edit the profile
-@app.route('/profile')
+@app.route('/profile', methods=["GET", "POST"])
 @is_logged_in
 def profile():
+    form = ProfileForm()
+    id = current_user.id
+    name_to_update = User.query.get_or_404(id)
+    if request.method == "POST":
+         name_to_update.name = request.form['username'] 
+         name_to_update.sex = request.form['sex']
+         name_to_update.age = request.form['age']
+         name_to_update.country = request.form['country']
+         name_to_update.company = request.form['company']
+         name_to_update.position = request.form['position']
 
-    #flash('Your profile is saved', 'success')
-    return redirect(url_for('profile'))
+         #username_to_update.password = request.form['password']
+         try:
+                   db.session.commit()
+                   flash("Profile Updated Successfully!")
+                   return render_template('profile.html',form=form, username_to_update=name_to_update, id=id)
+         except:
+                   flash("Error! Looks like there was a problem...try again!")
+                   return render_template('profile.html',form=form, name_to_update=name_to_update, id=id)
+
+    else:
+           #flash('Your profile is saved', 'success')
+           return render_template('profile.html',form=form, name_to_update=name_to_update, id=id)  
 
 
-#Logout-Route(Still not functioning)
+#Logout-Route
 @app.route('/logout')
 @is_logged_in
 def logout():

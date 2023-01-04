@@ -8,11 +8,14 @@
 
 <body>
 {% block content %}
- <h4>Dashboard <small>Welcome {{session.username}}</small></h4>
- <!--<a class = "btn btn-primary" href="/add_task">Add Task</a>-->
+ 
  <div class="form">
+    <h4>Dashboard <small>Welcome {{session.username}}</small></h4>
+    <!--<a class = "btn btn-primary" href="/add_task">Add Task</a>-->
+    <br/>
     <form action="/add" method="post">
         <input type="text" name="task" required placeholder="Add a new task to do">
+        <br/><br/>
         <p style="font-family:verdana">
             Choose a team member: <p> <SELECT name="team_members_usernames" style="font-family:verdana" value ="{{ team_members}}">
             {% for t in team_members %} 
@@ -29,10 +32,10 @@
 
 </div>
 
-<div class="row">
+<section class="three-columns-layout">
     <!--Begin Column To Do-->
-    <div class="column">
-        <h2>To Dos</h2>
+    <div class="left">
+        <h4>To Dos</h4>
         {% for task in to_do %}
         <!--begin Card To Do -->
         <div class="card">
@@ -41,88 +44,172 @@
                 <h5 class="card-title">To Do Nr: {{ loop.index}} </h5>
             </div>
             <!--Begin Card Body-->
-            <div class="card-body">    
-                     <li>{{ task.task }}</li>
-                     <li>{{ task.team_member }} </li>
-                     <!--Begin Comment-Session -->
-                     <li> Leave a comment </li>            
-                         <ol>
-                            {% for comment in task.comments %}
-                            <li> 
-                            {{ comment.text }} 
-                            </li> 
-                            {% endfor %}
-                        </ol>
-            <!--Comment Form -->
-            <form class="input-group mb-3" method="POST" action="/create-comment/{{task.id}}">
-                <input 
-                 type="text" 
-                id="text" 
-                name="text" 
-                class="form-control" 
-                placeholder="Comment here" 
-                />
-                <button type="submit" class="btn btn-primary"> Comment </button>
-            </form> 
-            <br/>
-        <!--End Comment Session-->
+            <div class="card-body">
+                <li>{{ task.task }}</li>
+                <li>{{ task.team_member }} </li>
+                <!--Begin Comment-Session -->
+                <li> Leave a comment </li>
+                <ol>
+                    {% for comment in task.comments %}
+                    <li>
+                        {{ comment.text }}
+                    </li>
+                    {% endfor %}
+                </ol>
+                <!--Comment Form -->
+                <form class="input-group mb-3" method="POST" action="/create-comment/{{task.id}}">
+                    <input type="text" id="text" name="text" class="form-control" placeholder="Comment here" />
+                    <button type="submit" class="btn btn-primary"> Comment </button>
+                </form>
+                <!--End Comment Session-->
 
-        <!--Buttons to move Task-->
-                <button><a href="{{ url_for('change_status', id=task.id, status='doing') }}">Mark as doing</a></button>
-                <button><a href="{{ url_for('change_status', id=task.id, status='done') }}">Mark as done</a></button>
-                <button><a href="{{ url_for('delete', id=task.id) }}">Delete task</a></button></li>         
-          
-        </ul>
-        <!--End Card Body-->
+                <!--Buttons to move Task-->
+                <button><a href="{{ url_for('change_status', id=task.id, status='doing') }}">Mark as
+                        doing</a></button>
+                <button><a href="{{ url_for('change_status', id=task.id, status='done') }}">Mark as
+                        done</a></button>
+                <button><a href="{{ url_for('delete', id=task.id) }}">Delete task</a></button></li>
+
+                <!--End Card Body-->
+            </div>
+            <!--End Card -->
+            <br />
         </div>
-        <!--End Card -->
-    </div>
-    {% endfor %} 
-    <!--End Column To Do-->    
-    </div>
-    <br/>
-    <div class="column">
-       <h2>Task in progress</h2>
-       <ul>
-       {% for task in doing %}
-           <li> {{ task.task }} </li>
-           <li> {{ task.team_member }} </li>
-           <li>
-                <button><a href="{{ url_for('change_status', id=task.id, status='done') }}">Mark as done</a></button>
-                <button><a href="{{ url_for('delete', id=task.id) }}">Delete task</a></button></li>
-        {% endfor %}    
-        </ul>
-    </div>
-    <div class="column">
-    <h2>Task done</h2>
-        <ul>
-        {% for task in done %}
-           <li>{{ task.task }}</li>
-           <li>{{ task.team_member }}</li>
-           <li>
-                <button><a href="{{ url_for('delete', id=task.id) }}">Delete task</a></button></li>
         {% endfor %}
-        </ul>
+        <!--End Column To Do-->
     </div>
-</div>
-    {% for message in get_flashed_messages() %}
-        <div class=flash>{{ message }}</div>
-    {% endfor %}   
+    <br />
+
+     <!--Begin Column Doing-->
+     <div class="center">
+        <h4>Task in Progress</h4>
+        {% for task in doing %}
+        <!--begin Card To Do -->
+        <div class="card">
+            <div class="card-header">
+                <!-- {{ loop.index }} iterates on the index of tasks and gives back number-->
+                <h5 class="card-title">Task in Progress Nr: {{ loop.index}} </h5>
+            </div>
+            <!--Begin Card Body-->
+            <div class="card-body">
+                <li>{{ task.task }}</li>
+                <li>{{ task.team_member }} </li>
+                <!--Begin Comment-Session -->
+                <li> Leave a comment </li>
+                <ol>
+                    {% for comment in task.comments %}
+                    <li>
+                        {{ comment.text }}
+                    </li>
+                    {% endfor %}
+                </ol>
+                <!--Comment Form -->
+                <form class="input-group mb-3" method="POST" action="/create-comment/{{task.id}}">
+                    <input type="text" id="text" name="text" class="form-control" placeholder="Comment here" />
+                    <button type="submit" class="btn btn-primary"> Comment </button>
+                </form>
+                <!--End Comment Session-->
+
+                <!--Buttons to move Task-->
+                <button><a href="{{ url_for('change_status', id=task.id, status='done') }}">Mark as
+                        done</a></button>
+                <button><a href="{{ url_for('delete', id=task.id) }}">Delete task</a></button></li>
+
+                <!--End Card Body-->
+            </div>
+            <!--End Card -->
+            <br />
+        </div>
+        {% endfor %}
+        <!--End Column To Do-->
+    </div>
+    <br />
+
+
+    <div class="right">
+        <h4>Task Done</h4>
+        {% for task in done %}
+        <!--begin Card To Do -->
+        <div class="card">
+            <div class="card-header">
+                <!-- {{ loop.index }} iterates on the index of tasks and gives back number-->
+                <h5 class="card-title">Task Done Nr: {{ loop.index}} </h5>
+            </div>
+            <!--Begin Card Body-->
+            <div class="card-body">
+                <li>{{ task.task }}</li>
+                <li>{{ task.team_member }} </li>
+                <!--Begin Comment-Session -->
+                <li> Leave a comment </li>
+                <ol>
+                    {% for comment in task.comments %}
+                    <li>
+                        {{ comment.text }}
+                    </li>
+                    {% endfor %}
+                </ol>
+                <!--Comment Form -->
+                <form class="input-group mb-3" method="POST" action="/create-comment/{{task.id}}">
+                    <input type="text" id="text" name="text" class="form-control" placeholder="Comment here" />
+                    <button type="submit" class="btn btn-primary"> Comment </button>
+                </form>
+                <!--End Comment Session-->
+
+                <!--Buttons to move Task-->
+                <button><a href="{{ url_for('delete', id=task.id) }}">Delete task</a></button></li>
+
+                <!--End Card Body-->
+            </div>
+            <!--End Card -->
+            <br />
+        </div>
+        {% endfor %}
+        <!--End Column To Do-->
+    </div>
+    <br />
     
-    <style>
-        .form{
-          justify-content: center;
-          margin-top: 40px;
-          padding: 10px;
-          margin-left: 300px;
-        }
-        .row {
-         justify-content: center;
-          margin-top: 10px;
-          padding: 10px;
-          margin-left: 300px;
-        }
-     </style>
+    {% for message in get_flashed_messages() %}
+    <div class=flash>{{ message }}</div>
+    {% endfor %}
+</section>
+ 
+<style>
+
+.form {
+justify-content: center;
+margin-top: 40px;
+padding: 10px;
+margin-left: 80px;
+}
+
+.three-columns-layout {
+position: relative;
+}
+
+.left {
+position: absolute;
+left: 80;
+top: 0;
+width: 420px;
+background-color: #a00;
+}
+
+.right {
+position: absolute;
+right: 80;
+top: 0;
+width: 420px;
+background-color: #0aa;
+}
+
+.center { 
+margin: 0 500px;
+background-color: #aa0;
+overflow: auto;
+} 
+
+    </style>   
+
 {% endblock %}
 </body>
 

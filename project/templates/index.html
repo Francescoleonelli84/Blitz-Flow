@@ -2,9 +2,17 @@
 
 <body>
   {% block content %}
-  <div class="jumbotron text-center">
-    <h2>Welcome To Blitz-FlowApp</h2>
-    <p class="lead">This application is built on the Python Flask framework</p>
-  </div>
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">Welcome To Blitz-Flow App</h1>
+      <p class="lead text-muted">This application is built on the Python Flask framework</p>
+      <p>
+        
+        <a href="{{url_for('register')}}" class="btn btn-primary my-2">Sign Up Now</a>  
+        
+      </p>
+    </div>
+  </section>
+  
   {% endblock %}
 </body>
