@@ -1,5 +1,6 @@
-env
-site.db
+env/
+project/site.db
 __pycache__
-venv
-README.md
+project/README.md
+project/Queries.sql
+venv/

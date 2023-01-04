@@ -1,0 +1,32 @@
+Auflistung der Ordnerpfade für Volume Windows
+Volumeseriennummer : BC56-68F5
+Project-Folder
+|   .gitignore
+|   run.py
+|   site.db
+|   
+project
+|   |   api.py
+|   |   models.py
+|   |   routes.py
+|   |   site.db
+|   |   __init__.py
+|   |   
+|   +---templates
+|   |   |   dashboard.html
+|   |   |   index.html
+|   |   |   layout.html
+|   |   |   login.html
+|   |   |   register.html
+|   |   |   
+|   |   +---components
+|   |   |       navbar.html
+|   |   |       
+|   |   \---static
+|   |           dashboard.css
+|   |           
+|   \---__pycache__
+|           models.cpython-39.pyc
+|           routes.cpython-39.pyc
+|           __init__.cpython-39.pyc
+|           
