@@ -11,7 +11,7 @@ app.debug = True
 #Configuration steps (lately they should be stored in a config file!)
 app.config['SECRET_KEY'] = 'secretkey'
 # !! Change here the directory to your project to create the database inside your project folder !!
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/wyf6623/MyProject/Blitz_Flow_Project/project/site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Flask_Projects/Blitz_Flow_Project_Final/project/site.db'
 app.config['ENV'] = 'development'
 app.config['DEBUG'] = True
 app.config['TESTING'] = True

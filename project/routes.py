@@ -10,10 +10,7 @@ import email_validator
 import sqlite3 
 
 
-# create tables before the first request
-@app.before_first_request
-def create_tables():
-    db.create_all()
+
     
 #from flask_marshmallow import Marshmallow
 login_manager = LoginManager()
@@ -134,24 +131,33 @@ def close_connection(exception):
 
 
 # Dashboard      
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 @is_logged_in
 def dashboard(): 
      cur = get_db().cursor()
      team_members = cur.execute("SELECT username FROM user").fetchall()
      tasks = db.session.query(Task).filter(Task.username==session.get('username'))
+     
      to_do, doing, done = [],[],[]
+     
      for task in tasks:
             if task.status == 'to_do':
                 to_do.append(task)
+                print("Now is in to do")
             elif task.status == 'doing':
                 doing.append(task)
+                print("Now is in doing")
             elif task.status == 'done':
+                print("Now is in done")
                 done.append(task)
+
+
      return render_template('dashboard.html', to_do=to_do, doing=doing, done=done, user=session.get('username'), team_members=team_members) 
 
 @app.route('/add', methods=['POST'])
 def add():
+    selected_member = request.form.get('team_members_usernames')
+    selected_task = request.form.get('task')  
     # Add new task
     # Need to be logged in to add task
     if not session.get('username'):
@@ -163,15 +169,26 @@ def add():
         status='to_do',
         team_member= request.form["team_members_usernames"]
     )
+    #Add task to Task-Tabelle of the assigned Team-Member
+    assigned = Task (
+        username = selected_member,
+        task = selected_task,
+        status = 'to_do',
+        team_member = session.get('username')
+    )
+
     db.session.add(to_do)
+    db.session.add(assigned)
     db.session.commit()
     return redirect(url_for('dashboard'))
 
-
+#update status
 @app.route('/task/<id>/<status>')
 def change_status(id,status):
     # Change status of task
     # Need to be logged in to change the status of task
+    selected_member = request.form.get('team_members_usernames')
+    selected_task = request.form.get('task')  
     if not session.get('username'):
         abort(401)
     task = db.session.query(Task).filter(Task.id==int(id)).first()
@@ -180,10 +197,18 @@ def change_status(id,status):
         abort(404)
     # Else, update the status
     task.status = status
+    #assigned_updated = Task (
+          #  username = task.team_member,
+           # task = task.task,
+            #status = task.status,
+            #team_member = session.get('username')
+        #)
+    #db.session.add(assigned_updated)
+
     db.session.commit()  
     return redirect(url_for('dashboard'))
 
-
+#delete status
 @app.route('/task/<id>', methods=['GET', 'POST', 'DELETE'])
 def delete(id):
     #Delete task

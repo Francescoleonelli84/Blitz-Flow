@@ -30,7 +30,7 @@ class Task(db.Model):
     username = db.Column(db.String, db.ForeignKey('user.username'))
     task = db.Column(db.String, nullable=False)
     status = db.Column(Enum('to_do', 'doing', 'done'))
-    team_member = db.Column(db.String, nullable=True)
+    team_member = db.Column(db.String,  db.ForeignKey('user.username'))
     comments = db.relationship('Comment', backref='post', passive_deletes=True)
 
 

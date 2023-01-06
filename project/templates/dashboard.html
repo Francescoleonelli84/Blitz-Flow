@@ -13,11 +13,11 @@
     <h4>Dashboard <small>Welcome {{session.username}}</small></h4>
     <!--<a class = "btn btn-primary" href="/add_task">Add Task</a>-->
     <br/>
-    <form action="/add" method="post">
+    <form action="/add" method="POST">
         <input type="text" name="task" required placeholder="Add a new task to do">
         <br/><br/>
         <p style="font-family:verdana">
-            Choose a team member: <p> <SELECT name="team_members_usernames" style="font-family:verdana" value ="{{ team_members}}">
+            Choose a team member: <p> <SELECT name="team_members_usernames" style="font-family:verdana" value ="{{ team_members }}">
             {% for t in team_members %} 
                 <OPTION value="{{t[0]}}">{{t[0]}}</OPTION>
             {% endfor %}
@@ -64,6 +64,7 @@
                 <!--End Comment Session-->
 
                 <!--Buttons to move Task-->
+            
                 <button><a href="{{ url_for('change_status', id=task.id, status='doing') }}">Mark as
                         doing</a></button>
                 <button><a href="{{ url_for('change_status', id=task.id, status='done') }}">Mark as
