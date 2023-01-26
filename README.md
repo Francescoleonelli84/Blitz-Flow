@@ -14,6 +14,18 @@ In dieser Repository wird **keine Datenbank-Datei** angegeben, da die Datenbank 
  1) ```__init.py__``` Datei öffnen
  2) ```app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Pfad/zum/Projekt/site.db'``` **(Zeile 15)** mit dem eigenen Pfad ändern. Wenn ein Windows-System und eine Sqlite Datenbank angewendet werden sowie das Projekt in C: Laufwerk gespeichert wird, kann der Teil ```'sqlite:///C:/'``` unverändert bleiben.  
 
+ Empfohlen wird allerdings, die .db Datei im **project** Ordner zu speichern, ansonsten muss man auch im Module **routes.py** den folgenden Pfad ändern **(Zeile 146)**:
+
+```
+#Query for the team member assignment dropdwown menu
+def get_db():
+    DATABASE = './project/site.db'
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+```
+
 Danke für die Aufmerksamkeit und viel Spaß!
 
 Francesco Leonelli,
