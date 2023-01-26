@@ -1,4 +1,4 @@
-# BLitz-Flow-Projekt 
+# Blitz-Flow-Projekt 
 
 Dieses Projekt wurde von Herrn Francesco Leonelli und Frau Yanfei Wang für den Wintersemester 2022/2023 HWR-Kurs "Entwicklung von Web-Anwendungen" (Dozent: Prof. Dr. Alexander Eck)
 gewählt und entwickelt. Es geht um einer einfachen Kanban-Board für Projektmanagement mit Python Flask. Nach einer Anmeldung und einem Log In kann der Nutzer bzw. die Nutzerin einen Task erstellen und einem/r Teammitglieder*in zuweisen. Je nach Status ("to-do", "doing", "done") wird der Task in die drei entsprechenden Spalten geschoben. Am Ende gibt es die Möglichkeit den Task definitiv (mit einer entsprechenden Entfernung der Daten von der Datenbank) zu löschen. 
