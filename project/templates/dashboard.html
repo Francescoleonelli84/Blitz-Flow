@@ -10,7 +10,7 @@
 {% block content %}
  
  <div class="form">
-    <h4>Dashboard <small>Welcome {{session.username}}</small></h4>
+    <h4> Dashboard -  <small> <i> Welcome <b> {{session.username}} </b>! - </i></small></h4>
     <!--<a class = "btn btn-primary" href="/add_task">Add Task</a>-->
     <br/>
     <form action="/add" method="POST">
@@ -45,10 +45,12 @@
             </div>
             <!--Begin Card Body-->
             <div class="card-body">
-                <li>{{ task.task }}</li>
-                <li>{{ task.team_member }} </li>
+                <li>Task Name: <b> {{ task.task }} </b></li>
+                <li>Assigned to: <b> {{ task.team_member }}  </b> </li>
+                <li>Datum: <b> {{ task.date}} </b> </li>
                 <!--Begin Comment-Session -->
-                <li> Leave a comment </li>
+                <br> 
+                <p> <i> Leave a comment: <i> </i> </p>
                 <ol>
                     {% for comment in task.comments %}
                     <li>
@@ -93,10 +95,12 @@
             </div>
             <!--Begin Card Body-->
             <div class="card-body">
-                <li>{{ task.task }}</li>
-                <li>{{ task.team_member }} </li>
+                <li>Task Name: <b> {{ task.task }} </b></li>
+                <li>Assigned to: <b> {{ task.team_member }}  </b> </li>
+                <li>Datum: <b> {{ task.date}} </b> </li>
                 <!--Begin Comment-Session -->
-                <li> Leave a comment </li>
+                <br> 
+                <p> <i> Leave a comment: <i> </i> </p>
                 <ol>
                     {% for comment in task.comments %}
                     <li>
@@ -138,10 +142,12 @@
             </div>
             <!--Begin Card Body-->
             <div class="card-body">
-                <li>{{ task.task }}</li>
-                <li>{{ task.team_member }} </li>
+                <li>Task Name: <b> {{ task.task }} </b></li>
+                <li>Assigned to: <b> {{ task.team_member }}  </b> </li>
+                <li>Datum: <b> {{ task.date}} </b> </li>
                 <!--Begin Comment-Session -->
-                <li> Leave a comment </li>
+                <br> 
+                <p> <i> Leave a comment: <i> </i> </p>
                 <ol>
                     {% for comment in task.comments %}
                     <li>

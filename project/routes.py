@@ -1,4 +1,4 @@
-from project import app
+from project import app, ma, login_manager
 from project.models import *
 from datetime import datetime
 from functools import wraps
@@ -11,12 +11,38 @@ import sqlite3
 
 
 
-    
-#from flask_marshmallow import Marshmallow
-login_manager = LoginManager()
-login_manager.init_app(app)
-bootstrap = Bootstrap(app)
-login_manager.login_view = 'login'
+# -- Marshmallow Schema for API/Json-Response-- 
+class TaskSchema(ma.Schema):
+    id = Task.id
+    username = Task.username
+    task = Task.task
+    status = Task.status
+    team_member = Task.team_member
+    date = Task.date
+
+    def _init_(self, username, task, status, team_member, date):
+        self.username = username
+        self.task = task
+        self.status = status
+        self.team_member =  team_member
+        self.date = date
+
+    class Meta:
+        fields = ('id','username', 'task','status', 'team_member', 'date')
+       
+task_schema = TaskSchema()
+tasks_schema = TaskSchema(many=True)
+
+@app.route('/data')
+def return_data():
+    filtered_tasks = Task.query.filter(Task.username==session.get('username')).all()
+    result = tasks_schema.dump(filtered_tasks)
+    task_list = []
+    for i in result:
+           task_list.append({'id': i['id'], 'username': i['username'], 'task name': i['task'], 'status': i['status'], 'team member': i['team_member'],  'date': i['date']})
+    return jsonify(task_list)
+
+
 
 
 # loads User_Class in the DB
@@ -115,14 +141,14 @@ def logout():
     #flash ('You have been logged out','success')
     return redirect(url_for('login'))
 
-
+#Query for the team member assignment dropdwown menu
 def get_db():
     DATABASE = './project/site.db'
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
     return db
-
+#close connection after getting attributes from db
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
@@ -130,7 +156,7 @@ def close_connection(exception):
         db.close()
 
 
-# Dashboard      
+# Dashboard mtask movements     
 @app.route('/dashboard', methods=['GET', 'POST'])
 @is_logged_in
 def dashboard(): 
@@ -157,7 +183,9 @@ def dashboard():
 @app.route('/add', methods=['POST'])
 def add():
     selected_member = request.form.get('team_members_usernames')
-    selected_task = request.form.get('task')  
+    selected_task = request.form.get('task')
+    now = datetime.now()
+    date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
     # Add new task
     # Need to be logged in to add task
     if not session.get('username'):
@@ -167,14 +195,16 @@ def add():
         username=session.get('username'),
         task=request.form['task'],
         status='to_do',
-        team_member= request.form["team_members_usernames"]
+        team_member= request.form["team_members_usernames"],
+        date = date_time
     )
     #Add task to Task-Tabelle of the assigned Team-Member
     assigned = Task (
         username = selected_member,
         task = selected_task,
         status = 'to_do',
-        team_member = session.get('username')
+        team_member = session.get('username'),
+        date = date_time
     )
 
     db.session.add(to_do)

@@ -18,9 +18,9 @@ import sqlite3
 # User_Class_Model for the Database
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    username = db.Column(db.String(20), unique=False, nullable=False)
+    email = db.Column(db.String(120), unique=False, nullable=False)
+   # image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
 
 # Task_Class_Model for the database
@@ -32,6 +32,7 @@ class Task(db.Model):
     status = db.Column(Enum('to_do', 'doing', 'done'))
     team_member = db.Column(db.String,  db.ForeignKey('user.username'))
     comments = db.relationship('Comment', backref='post', passive_deletes=True)
+    date = db.Column(db.String)
 
 
 #Login-Validation through Wtf_Forms

@@ -1,0 +1,22 @@
+Auflistung der Ordnerpfade fuer Volume Windows
+
+Project-Folder
+|   
+|   run.py
+|      
+project
+|   |   models.py
+|   |   routes.py
+|   |   __init__.py
+|   |   
+|   +---templates
+|   |   |   dashboard.html
+|   |   |   index.html
+|   |   |   layout.html
+|   |   |   login.html
+|   |   |   register.html
+|   |   |   profile.html
+|   |   |
+|   |   +---components
+|   |   |       navbar.html
+|   |   |

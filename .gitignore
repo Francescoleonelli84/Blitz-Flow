@@ -1,7 +1,5 @@
 env/
 project/site.db
 __pycache__
-project/README.md
 venv
-project/__init__.py
 project/Queries.sql
